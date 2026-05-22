@@ -1,0 +1,26 @@
+#!/bin/bash
+# =============================================================================
+#  firefox-gpu  -  launch Firefox with hardware-accelerated WebGL
+# =============================================================================
+#  Install inside the proot distro:
+#    mkdir -p ~/.local/bin
+#    cp firefox-gpu ~/.local/bin/ && chmod +x ~/.local/bin/firefox-gpu
+#
+#  Then either run `firefox-gpu` directly, or set it as the default browser:
+#    exo-preferred-applications   ->   Internet -> Web Browser -> Other...
+#    ->   /home/<you>/.local/bin/firefox-gpu
+#
+#  Also set these once in about:config (saved in the Firefox profile):
+#    webgl.force-enabled = true
+#    gfx.webrender.all   = false   (true makes the UI buggy under virgl)
+#
+#  Note: glxtest "No GPUs detected via PCI" and "Failed to parse ANGLE
+#  renderer" warnings are cosmetic - WebGL is still accelerated.
+# =============================================================================
+
+exec env -u LIBGL_ALWAYS_SOFTWARE \
+  MOZ_X11_EGL=1 \
+  GALLIUM_DRIVER=virpipe \
+  MESA_GL_VERSION_OVERRIDE=4.1COMPAT \
+  MESA_GLSL_VERSION_OVERRIDE=410 \
+  firefox "$@"

@@ -1,0 +1,18 @@
+# =============================================================================
+#  gpu  -  per-app hardware acceleration wrapper
+# =============================================================================
+#  Add this line to your shell rc INSIDE the proot distro:
+#    ~/.zshrc   (zsh)   or   ~/.bashrc   (bash)
+#  then `source` it. After that, prefix any GL/WebGL app with `gpu`:
+#
+#    gpu glxgears
+#    gpu blender
+#    gpu <any-heavy-gl-app>
+#
+#  How it works: the desktop sets LIBGL_ALWAYS_SOFTWARE=1 for stability, so
+#  this wrapper unsets it and points the app at virpipe (-> virgl server ->
+#  ANGLE -> Vulkan -> Mali). The desktop stays in software; only the wrapped
+#  app uses the GPU.
+# =============================================================================
+
+alias gpu='env -u LIBGL_ALWAYS_SOFTWARE GALLIUM_DRIVER=virpipe MESA_GL_VERSION_OVERRIDE=4.1COMPAT MESA_GLSL_VERSION_OVERRIDE=410'
