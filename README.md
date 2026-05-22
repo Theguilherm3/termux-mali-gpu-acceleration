@@ -47,6 +47,18 @@ The desktop is software; the GPU is applied **per app** on demand.
 
 ---
 
+## Proof / Results
+
+![glxgears -info showing GL_RENDERER = virgl (ANGLE (ARM, Vulkan 1.3.303 (Mali-G57 MC2)))](docs/screenshots/glxgears-virgl-mali.png)
+
+*`gpu glxgears -info` confirms the active driver: `GL_RENDERER = virgl (ANGLE (ARM, Vulkan 1.3.303 (Mali-G57 MC2)))` - the full virgl -> ANGLE -> Vulkan -> Mali chain is live, not the broken OpenGL fallback.*
+
+![Firefox running the WebGL Aquarium with 500 fish at ~15 fps](docs/screenshots/webgl-aquarium-500fish.png)
+
+*Firefox running the WebGL Aquarium at ~15 fps with 500 fish - GPU-accelerated rendering under real load, not just a synthetic gears demo.*
+
+---
+
 ## Prerequisites
 
 - Termux (from F-Droid or GitHub - **not** the Play Store build)
