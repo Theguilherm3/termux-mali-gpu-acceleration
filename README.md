@@ -11,9 +11,10 @@ This repo documents the path that actually works on Mali: routing through
 **ANGLE -> Vulkan** with the right ICD fix, plus every desktop-bringup pitfall
 that comes after.
 
-> Tested on: **MediaTek Helio G100, Mali-G57 MC2**, Termux + udroid (Ubuntu
-> 22.04 "jammy") + XFCE4, Android 15, no root. The approach should apply to
-> other Mali GPUs without root - see [docs/GPU-COMPATIBILITY.md](docs/GPU-COMPATIBILITY.md).
+> Tested on: **Xiaomi Redmi Pad 2 (MediaTek Helio G100-Ultra, Mali-G57 MC2)**,
+> Termux + udroid (Ubuntu 22.04 "jammy") + XFCE4, Android 15 / HyperOS 2,
+> no root. The approach should apply to other Mali GPUs without root - see
+> [docs/GPU-COMPATIBILITY.md](docs/GPU-COMPATIBILITY.md).
 
 ---
 
