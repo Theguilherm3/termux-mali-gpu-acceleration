@@ -49,10 +49,12 @@ of native, independent of GPU. The bottleneck is the translation, not the chip.
 ## Sources
 
 - Termux maintainer on Mali vs `/dev/kgsl`:
-  `github.com/termux/termux-packages/discussions/23961`
+  [termux-packages discussion #23961](https://github.com/termux/termux-packages/discussions/23961)
 - Mali OpenGL/ANGLE bug:
-  `github.com/termux/termux-packages/issues/23042`
-- Vulkan ICD fix: `github.com/ar37-rs/virgl-angle/issues/1`
-- Benchmarks (Adreno 650): `github.com/LinuxDroidMaster/Termux-Desktops`
+  [termux-packages issue #23042](https://github.com/termux/termux-packages/issues/23042)
+- Vulkan ICD fix:
+  [ar37-rs/virgl-angle issue #1](https://github.com/ar37-rs/virgl-angle/issues/1)
+- Benchmarks (Adreno 650):
+  [LinuxDroidMaster/Termux-Desktops](https://github.com/LinuxDroidMaster/Termux-Desktops)
 - virgl overhead / OpenGL 2.1 ceiling:
-  `github.com/termux/termux-packages/issues/17579`
+  [termux-packages issue #17579](https://github.com/termux/termux-packages/issues/17579)

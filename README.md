@@ -58,13 +58,21 @@ The desktop is software; the GPU is applied **per app** on demand.
 
 ## Installation
 
-All commands in steps 1-2 run in **Termux** (the host), not inside the distro.
+All commands in steps 0-2 run in **Termux** (the host), not inside the distro.
+
+### 0. Get this repo
+
+```bash
+pkg install git
+git clone https://github.com/Theguilherm3/termux-mali-gpu-acceleration ~/termux-mali-gpu-acceleration
+cd ~/termux-mali-gpu-acceleration
+```
 
 ### 1. Install the virgl/ANGLE toolkit
 
 ```bash
 pkg install wget which virglrenderer virglrenderer-android angle-android
-cd && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle/raw/refs/heads/main/vgl && chmod +x ~/vgl
+cd && rm -f ~/vgl && wget https://github.com/ar37-rs/virgl-angle/raw/refs/heads/main/vgl && chmod +x ~/vgl
 ```
 
 ### 2. The Mali Vulkan ICD fix (make-or-break)
@@ -75,13 +83,18 @@ installs the generic Vulkan loader, and adds the Mesa ICD wrapper:
 
 ```bash
 pkg remove *icd-swrast && pkg install vulkan-loader-generic wget openssl && \
-cd && rm -rf ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && \
+cd && rm -f ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && \
 wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && \
 dpkg -i ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb
 ```
 
 (This one-liner is the documented fix from
 [ar37-rs/virgl-angle issue #1](https://github.com/ar37-rs/virgl-angle/issues/1).)
+
+> Note: `pkg remove *icd-swrast` relies on the shell passing the unmatched glob
+> through to `apt`, which then matches the package name. If your shell sets
+> `failglob` or `nullglob` differently from Termux's default, quote it:
+> `pkg remove '*icd-swrast'`.
 
 ### 3. Install the launch scripts
 
@@ -99,10 +112,12 @@ and `chmod +x` it there.
 
 ### 4. Per-app GPU wrapper (inside the distro)
 
-Append the alias from `config/gpu.alias` to your `~/.zshrc` (or `~/.bashrc`):
+Add the alias from `config/gpu.alias` to your `~/.zshrc` (or `~/.bashrc`).
+Guarded so re-running the install doesn't duplicate the line:
 
 ```bash
-echo "alias gpu='env -u LIBGL_ALWAYS_SOFTWARE GALLIUM_DRIVER=virpipe MESA_GL_VERSION_OVERRIDE=4.1COMPAT MESA_GLSL_VERSION_OVERRIDE=410'" >> ~/.zshrc
+grep -q "alias gpu=" ~/.zshrc 2>/dev/null || \
+  echo "alias gpu='env -u LIBGL_ALWAYS_SOFTWARE GALLIUM_DRIVER=virpipe MESA_GL_VERSION_OVERRIDE=4.1COMPAT MESA_GLSL_VERSION_OVERRIDE=410'" >> ~/.zshrc
 source ~/.zshrc
 ```
 

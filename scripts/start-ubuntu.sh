@@ -7,13 +7,31 @@
 #  brings up Termux:X11, and logs into the proot distro to start the desktop.
 #
 #  >>> EDIT THESE TWO LINES FOR YOUR SETUP <<<
-USER_NAME="guilherme"          # your username inside the proot distro
+USER_NAME="changeme"           # your username inside the proot distro
 UDROID_DISTRO="jammy:xfce4"    # your udroid distro tag (e.g. jammy:xfce4)
 # -----------------------------------------------------------------------------
 #  This script assumes you use "udroid". If you use proot-distro instead,
 #  replace the final "udroid login ..." line with the equivalent
 #  "proot-distro login ... --shared-tmp -- /home/$USER_NAME/start-xfce.sh".
 # =============================================================================
+
+# 0. Preflight: required pieces are in place. Each of these failing produces
+#    a blank screen or cryptic error several steps later, so check up front.
+if [ "$USER_NAME" = "changeme" ]; then
+  echo "ERROR: edit USER_NAME at the top of $0 before running." >&2
+  exit 1
+fi
+if [ ! -x "$HOME/vgl" ]; then
+  echo "ERROR: ~/vgl not found or not executable. Install per README step 1." >&2
+  exit 1
+fi
+if ! command -v am >/dev/null 2>&1; then
+  echo "ERROR: 'am' not found - run this inside Termux on Android." >&2
+  exit 1
+fi
+if ! pm list packages 2>/dev/null | grep -q com.termux.x11; then
+  echo "WARN: Termux:X11 app not detected - desktop will not display without it." >&2
+fi
 
 # 1. Kill the whole Termux:X11 Android app. This is the ONLY way to truly
 #    destroy a stale X server holding zombie clients (a leftover WM, etc).
