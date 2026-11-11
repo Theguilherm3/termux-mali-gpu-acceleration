@@ -1,0 +1,34 @@
+this comands shoulf be executed or 
+create a script to start xfce4 in 
+termux x11:
+
+export GALLIUM_DRIVER=virpipe # funcional
+export MESA_GL_VERSION_OVERRIDE=4.1COMPAT             
+export MESA_GLSL_VERSION_OVERRIDE=410
+unset LIBGL_ALWAYS_SOFTWARE
+
+LD_LIBRARY_PATH="$PREFIX/opt/angle-android/vulkan" virgl_test_server \
+        --use-egl-surfaceless \
+        --use-gles &
+
+sleep 2
+
+termux-x11 :1 -xstartup \
+"dbus-launch --exit-with-session xfce4-session" &
+
+   am start -n \                                              
+com.termux.x11/com.termux.x11.MainActivity \
+>/dev/null 2>&1
+
+
+dont forget fix the icd with the Patch from other author
+ande execute this comands, you dhould install 
+the packages for update and install vulkan, etc
+
+from now you can usr either glxinfo -B
+as glxgears for test performance!!
+
+thanks, i Hope you enjoy
+
+any question just ask, i dont know if i can 
+share my email....
